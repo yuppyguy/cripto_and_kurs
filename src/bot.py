@@ -3,8 +3,8 @@ from telebot import types
 import os
 from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
-from load_from_api import run_update
-from db import get_connection
+from src.load_from_api import run_update
+from src.db import get_connection
 
 load_dotenv()
 
