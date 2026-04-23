@@ -36,7 +36,7 @@ class Coin:
     def get_data_coin(self):
         url = 'https://api.coingecko.com/api/v3/simple/price'
         params = {  
-                'ids': 'bitcoin,ethereum',
+                'ids': 'bitcoin,ethereum,solana,tether,ripple',
                 'vs_currencies': 'USD'
         }
         headers = { 'x-cg-demo-api-key': coin_key }
@@ -69,8 +69,8 @@ class Currency:
     def get_data_currency(self):
         url = 'https://api.fastforex.io/fetch-multi'
         params = {
-            'from': 'USD',         
-            'to': 'BYN,EUR',       
+            'from': 'USD', 
+            'to': 'BYN,EUR,RUB,PLN', 
             'api_key': fst_forex_key 
         }
 
@@ -78,12 +78,13 @@ class Currency:
             response = requests.get(url, params=params)
             if response.status_code == 200:
                 data = response.json()
-                usd_to_byn = data['results']['BYN']
-                eur_rate = data['results']['EUR']
-                return {
-                    'USD to BYN' : usd_to_byn,
-                    'EUR to BYN' : round(usd_to_byn / eur_rate,2)
-                }
+                results = data['results']
+                # Сохраняем все, что получили из API
+                res_dict = {}
+                for curr, rate in results.items():
+                    # Приводим к твоему формату 'CURR to BYN'
+                    res_dict[f'{curr} to BYN'] = rate
+                return res_dict
         except Exception as e:
             logging.error(f'Smthng wrong: {e}')
         return None
