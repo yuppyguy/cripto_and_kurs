@@ -1,3 +1,4 @@
 .venv/
 .env/
-coindatabase.db
+coindatabase.db/
+scr\__pycache__
